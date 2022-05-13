@@ -14,7 +14,7 @@ Dependencies: BigInteger.js library
 
 This is the basic interface, for my sake the public key (n, g) is pre-filled, but can easily be replaced with your values.
 
-#[](images/encrypt.png)
+![](images/encrypt.png)
 
 Once the random value (r) and message (m) are entered, press encrypt and it'll encrypt the message and return the ciphertext.
 
