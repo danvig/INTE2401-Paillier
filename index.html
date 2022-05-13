@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INTE2401-Paillier</title>
+
+</head>
+<body>
+    <h2>Paillier Encryption</h2>
+    <h3>Parameters</h3><br>
+    N: <input class="input" id="n" name="n" value="9ab7f68272ac7dbaced38bc951e32c7d4437128bee56a98de01487015c65b000a91341a1ad852c54765f5ea13151a7f2870a3c8d69c74efbc2ac39b897b8e6c120a1534826e1b1d8c8c8255931293e22242b82f09543ae803d4fa65514528f7d37e6d39d48733e31faa265ae3eee46fc05848f0ca36e555b8ded871f163bdf49"><br><br>
+    G: <input class="input" id="g" name="g" value="9ab7f68272ac7dbaced38bc951e32c7d4437128bee56a98de01487015c65b000a91341a1ad852c54765f5ea13151a7f2870a3c8d69c74efbc2ac39b897b8e6c120a1534826e1b1d8c8c8255931293e22242b82f09543ae803d4fa65514528f7d37e6d39d48733e31faa265ae3eee46fc05848f0ca36e555b8ded871f163bdf4a"><br><br>
+    R: <input class="input" id="r" name="r" value=""><br><br>
+    M: <input class="input" id="m" name="m" value=""><br><br>
+
+    <button type="button" onclick="encrypt()">Encrypt:</button><br><br>
+
+    <div id="encrypted_value" name="encrypted_value">Output Ciphertext is: </div><br><br>
+
+    
+    <script src="biginteger.js"></script>
+
+    <script type="text/javascript">
+        function encrypt() {
+            // Take in parameters
+            var n=document.getElementById("n").value;
+            var n2;
+            var g=document.getElementById("g").value;
+            var r=document.getElementById("r").value;
+            var m=document.getElementById("m").value;
+            var encrypt=document.getElementById("encrypted_value");
+
+            // Convert to Hex Big Int
+            n = bigInt(n, 16);
+            n2 = n.pow(2);
+            g = bigInt(g, 16)
+            r = bigInt(r, 16)
+            m = bigInt(m, 16)
+
+            // (G^M (mod n2)) - WORKS
+            var c1 = g.modPow(m,n2);
+            //console.log(c1.toString(16));
+
+            // (R^N (mod n2)) - WORKS
+            var r1 = r.modPow(n, n2);
+            //console.log(r1.toString(16));
+
+            // CIPHERTEXT
+            var multiply = c1.multiply(r1);
+            var ciphertext = mod(multiply, n2);
+            encrypt.innerHTML = "Output Ciphertext is: " + ciphertext.toString(16);    
+        }
+
+        // Other functions
+        function mod(a, b) {
+            var result = a.mod(b);
+            if (result.isNegative())
+                result = result.add(b);
+            return result;
+        }
+    </script>
+
+    <style>
+        body {
+            width:100%;
+        }
+
+        .input {
+            width:600px;
+        }
+    </style>
+</body>
+</html>
